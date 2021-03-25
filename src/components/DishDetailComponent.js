@@ -17,21 +17,22 @@ import CommentFormComponent from'./CommentFormComponent';
         );
     }
 
-    function RenderComments({comments}){
+    function RenderComments({comments, addComment, dishId}){
         if(comments!=null){
-            const commentss=comments.map((comment) => {
-                return(
-                    <div key={comment.id}>
-                    <p>{comment.comment} </p>
-                    <p>-- {comment.author}, { new Intl.DateTimeFormat('en-US', {year:'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
-                    </div>
-                );
-            });
             return(
                 <div className="col-12 col-md-5 m-1">
-                    <h2>Comments</h2>
-                    <div>{commentss}</div>
-                    <CommentFormComponent />
+                    <h4>Comments</h4>
+                    <ul className="list-unstyled">
+                        {comments.map((comment) => {
+                            return (
+                                <li key ={comment.id}>
+                                    <p>{comment.comment}</p>
+                                    <p>-- {comment.author} , { new Intl.DateTimeFormat('en-US', {year:'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                    <CommentFormComponent dishId={dishId} addComment={addComment} />
                 </div>
             );
         }
@@ -58,7 +59,7 @@ import CommentFormComponent from'./CommentFormComponent';
                     </div>
                     <div className="row">
                         <RenderDish dish={props.dish} />
-                        <RenderComments comments={props.comments} />
+                        <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
                     </div>
                 </div>
             );
